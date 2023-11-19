@@ -1,10 +1,17 @@
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from habit.models import Habit
 from habit.paginators import HabitPaginator
 from habit.permissions import IsOwner, IsOwnerOrReadOnly
 from habit.serializers import HabitSerializer
+
+
+class HabitViewSet(viewsets.ModelViewSet):
+    serializer_class = HabitSerializer
+    queryset = Habit.objects.all()
+    pagination_class = HabitPaginator
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
 
 class HabitCreateAPIView(generics.CreateAPIView):
