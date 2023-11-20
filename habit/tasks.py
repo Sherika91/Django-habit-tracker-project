@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 
 from config.celery import app
 from habit.models import Habit
-from users.models import User
 
 load_dotenv()
 
@@ -59,7 +58,7 @@ def check_habit_completion():
 app.conf.beat_schedule = {
     'check_habit_completion': {
         'task': 'habit.tasks.check_habit_completion',
-        'schedule': crontab(minute=19, hour=00)
+        'schedule': crontab(minute=43, hour=22)
     },
 }
 
