@@ -28,7 +28,7 @@ class HabitListAPIView(generics.ListAPIView):
     pagination_class = HabitPaginator
 
     def get_queryset(self):
-        return Habit.objects.filter(owner=self.request.user)
+        return Habit.objects.filter(owner=self.request.user).order_by('-id')
 
 
 class PublicHabitListAPIView(generics.ListAPIView):
