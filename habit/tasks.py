@@ -58,7 +58,7 @@ def check_habit_completion():
 app.conf.beat_schedule = {
     'check_habit_completion': {
         'task': 'habit.tasks.check_habit_completion',
-        'schedule': crontab(minute=43, hour=22)
+        'schedule': crontab(day='*/1'),
     },
 }
 
