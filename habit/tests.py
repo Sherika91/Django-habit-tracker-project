@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
-from rest_framework_simplejwt.tokens import AccessToken
 
 from habit.models import Habit
 from users.models import User
@@ -18,8 +17,7 @@ class HabitCRUDTestCases(TestCase):
         self.user.save()
 
         self.client = APIClient()
-        access_token = AccessToken.for_user(self.user)
-        self.client.force_authenticate(user=self.user, token=access_token)
+        self.client.force_authenticate(user=self.user)
 
         self.habit = Habit.objects.create(
             habit_name='test habit 1',
