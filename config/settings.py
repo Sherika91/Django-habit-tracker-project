@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+from datetime import timedelta
 
 from dotenv import load_dotenv
 from pathlib import Path
@@ -48,7 +49,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'django_celery_beat',
-
 
     # Local apps
     'users',
@@ -92,12 +92,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv("DB_ENGINE"),
-        'NAME': os.getenv("DB_NAME"),
-        'USER': os.getenv("DB_USER"),
-        'PASSWORD': os.getenv("DB_PASSWORD"),
-        'HOST': os.getenv("DB_HOST"),
-        'PORT': int(os.getenv("DB_PORT")),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'django_drf_proj_kurs',  # os.getenv("DB_NAME"),
+        'USER': 'postgres',  # os.getenv("DB_USER"),
+        'PASSWORD': 'mysecretpasswond',  # os.getenv("DB_PASSWORD"),
+        'HOST': 'django-db',
+        'port': '5432',
     }
 }
 
@@ -157,6 +157,12 @@ REST_FRAMEWORK = {
 
 }
 
+# TOKEN VALIDATION TIME SETTINGS
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
+}
+
 # CORS SETTINGS
 CORS_ALLOWED_ORIGINS = [
     "https://read-and-write.example.com",  # Frontend domain
@@ -179,8 +185,8 @@ EMAIL_USE_TLS = True
 
 
 # Celery Configuration Options
-CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
-CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_TIMEZONE = "Europe/Moscow"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
